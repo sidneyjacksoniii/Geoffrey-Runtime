@@ -1,0 +1,22 @@
+flowchart LR
+  U[Authenticated UI or approved source] --> I[Request intake]
+  I --> V[Schema · freshness · replay · credential checks]
+  V --> G[Deterministic governor]
+  G --> R[Registered-executor router]
+  R --> H[Atomic handoff]
+  H --> E[Local executor / Apple Shortcuts adapter]
+  E --> T[Transport acknowledgement]
+  E --> X[Correlated terminal receipt]
+  X --> C[Canonical state and dashboard]
+  V -->|reject| D[Deny / expire / quarantine]
+  G -->|deny| D
+  R -->|unavailable| D
+  T -. non-authoritative .-> C
+  classDef control fill:#EAF2F8,stroke:#244860,color:#111;
+  classDef execution fill:#EEF6EE,stroke:#2F6543,color:#111;
+  classDef evidence fill:#FFF3D8,stroke:#8B6420,color:#111;
+  classDef reject fill:#FBEAEA,stroke:#913D3D,color:#111;
+  class I,V,G,R,H control;
+  class E execution;
+  class T,X,C evidence;
+  class D reject;

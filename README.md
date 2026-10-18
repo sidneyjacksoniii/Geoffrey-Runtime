@@ -32,6 +32,7 @@ The project demonstrates:
 - [Engineering case study](docs/estelles-kitchen/engineering-case-study.md)
 - [Architecture](docs/estelles-kitchen/architecture.md)
 - [Live experience](https://geoffreyruntime.com/estelles-kitchen/)
+- **[Jackson-West: Engineering a Governed Distributed Execution Platform](docs/jackson-west/governed-distributed-execution-platform.md)** — A sanitized case study of authenticated intake, deterministic policy, registered-executor routing, receipt-gated state, heartbeat availability, and Apple Shortcuts integration. Private Jackson-West source, identifiers, endpoints, credentials, and production logs remain excluded.
 
 ### One verified cross-system acceptance test
 

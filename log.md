@@ -1,5 +1,11 @@
 # Repository documentation change log
 
+## 2026-10-18 — Jackson-West governed execution case study
+
+- Added a sanitized architecture case study, editable diagrams, and an explicit evidence-boundary matrix.
+- Documentation only: no runtime behavior, deployment configuration, credentials, private source, or production evidence changed.
+- Claims distinguish code-present, isolated-tested, deployed, live-verified, planned, and unresolved work.
+
 ## September 30, 2026 — Radio V1 frozen architecture alignment
 
 Recorded the owner's completed architecture/readiness review and frozen V1 decision. Updated the README, architecture overview, Radio documentation, explanatory schema prose, examples, and Radio-related Shortcut inventory notes. Added `recent.md` and this root `log.md` because neither existed in the current repository; `schemas/log.md` remains the separate unchanged generic log contract.

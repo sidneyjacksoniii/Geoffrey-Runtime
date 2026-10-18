@@ -1,0 +1,29 @@
+sequenceDiagram
+  participant S as Authenticated source
+  participant I as Intake
+  participant G as Governor
+  participant R as Router
+  participant E as Registered executor
+  participant C as Canonical state
+  S->>I: request + correlation ID
+  I->>I: schema, ID, freshness, replay, credential
+  alt rejected
+    I-->>S: terminal rejection
+  else authenticated
+    I->>G: normalized candidate
+    G->>G: policy + access + state checks
+    alt denied or expired
+      G-->>S: fail closed
+    else approved
+      G->>R: immutable approved request
+      R->>E: atomic handoff to eligible executor
+      E-->>R: transport acknowledgement
+      Note over R,C: acknowledgement is not success
+      alt terminal receipt arrives and validates
+        E->>C: correlated authoritative receipt
+        C-->>S: publish final state
+      else timeout / mismatch / late evidence
+        C-->>S: pending, failed, or quarantined
+      end
+    end
+  end
