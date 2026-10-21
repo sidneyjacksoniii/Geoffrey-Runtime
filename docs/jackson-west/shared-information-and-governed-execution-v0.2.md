@@ -5,7 +5,7 @@
 **Publication status:** Published  
 **Publication date:** 21 October 2026  
 **Baseline source commit:** `825df3bfe412aaccc73af409e235cc8b1c826ce5`  
-**Article introduction record:** The first public Git commit containing this file; the exact immutable SHA is recorded in the immediate metadata follow-up.
+**Article introduction commit:** `e7e28f0e3c2251c558c26ae67b4af6b7a5374ebf`
 
 This publication documents demonstrated and planned architecture boundaries. It is not a claim that every described path is offered to public customers. The 18 October 2026 case study remains the historical public baseline at its original commit.
 
@@ -150,7 +150,7 @@ The boundary is part of the architecture. Public source and documentation explai
 ## Development history
 
 - **0.1 — 18 October 2026:** the original public case study documented authenticated intake, deterministic policy, registered-executor routing, receipt-gated state, heartbeat availability, selected radio evidence, and an isolated Runtime Access candidate. Its history remains unchanged at commit `825df3bfe412aaccc73af409e235cc8b1c826ce5`.
-- **0.2 — 21 October 2026:** this publication separates direct local Shortcuts from governed requests; distinguishes provenance from authorization and requester from executor; records the selected phone-side Access-gate and household announcement evidence at a public-safe level; narrows receipt claims; and preserves the boundary between public Kitchen information, undeployed authenticated reads, and planned agent actions. The immediate metadata follow-up records the exact introduction commit without inventing a self-referential hash.
+- **0.2 — 21 October 2026:** this publication separates direct local Shortcuts from governed requests; distinguishes provenance from authorization and requester from executor; records the selected phone-side Access-gate and household announcement evidence at a public-safe level; narrows receipt claims; and preserves the boundary between public Kitchen information, undeployed authenticated reads, and planned agent actions. It was introduced at commit `e7e28f0e3c2251c558c26ae67b4af6b7a5374ebf`; this follow-up records that immutable reference without inventing a self-referential hash.
 
 ## Public demonstration links
 
