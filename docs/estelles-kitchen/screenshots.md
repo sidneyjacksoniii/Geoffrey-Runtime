@@ -16,7 +16,9 @@ Screenshots show public recipes and interface states only. No native Shortcut wa
 
 ## 3. Seven-meal menu; real desktop rendering including long-title overlap.
 
-![Seven-day public menu for October 4–10, 2026, with Monday highlighted and a multi-meal shopping disclosure beneath the meal cards.](assets/screenshots/seven-day-menu-desktop.png)
+![Historical seven-day public menu capture for October 4–10, 2026, with Monday highlighted and the then-current multi-meal shopping disclosure beneath the meal cards.](assets/screenshots/seven-day-menu-desktop.png)
+
+This screenshot records an earlier interface state. The current public grocery action is limited to today’s meal and the fixed list name **Estelle Groceries**.
 
 ## 4. Public recipe and ingredient preview opened from the weekly menu.
 

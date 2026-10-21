@@ -20,7 +20,7 @@ AI assistance in development is distinct from runtime functionality. This case s
 
 **Decision:** focus the public experience on the published menu, readable recipes, and ingredients that can be reviewed before a grocery action.
 
-**Trade-off:** visitors can choose which published meals to shop for, but cannot edit the household meal schedule through the page.
+**Trade-off:** visitors can browse all published meals, but the free grocery export is limited to today’s meal and cannot edit the household meal schedule.
 
 **Lesson:** a clear product contract keeps the interface useful while limiting scope. Document what users can do and what information they should expect to see.
 
@@ -38,7 +38,7 @@ AI assistance in development is distinct from runtime functionality. This case s
 
 **Problem:** opening Apple Shortcuts does not prove that the expected reminders were created. The browser cannot observe every step in the native app.
 
-**Decision:** preview what will be sent, keep inputs bounded, let the visitor choose the destination list, and describe the action as a handoff. Preserve ingredient quantities rather than guessing how to combine them.
+**Decision:** preview what will be sent, keep the free input bounded to today’s meal, write only to the fixed list name **Estelle Groceries**, and describe the action as a handoff. Preserve ingredient quantities rather than guessing how to combine them.
 
 **Trade-off:** repeated Add runs create duplicates, and visitors need to check the native result. The interface explains both behaviors directly.
 
@@ -50,7 +50,7 @@ AI assistance in development is distinct from runtime functionality. This case s
 
 **Decision:** supplement structural checks with native inspection, staged testing, and an actual website-to-Reminders acceptance run. Review the behavior of the installed helper rather than relying exclusively on generated structure.
 
-**Evidence:** on October 5, 2026, the final Add helper was exercised from the live Today recipe flow. All seven ingredient reminders in that test reached the selected list. Seven is the observed test size, not a capacity or cross-device guarantee.
+**Evidence:** on October 5, 2026, an earlier Add-helper version was exercised from the live Today recipe flow. All seven ingredient reminders in that test reached the then-selected list. Seven is the observed test size, not a capacity or cross-device guarantee. That run is historical evidence; the current public V2 helper writes only to **Estelle Groceries**, and this document does not turn the earlier selected-list behavior into a current capability claim.
 
 **Lesson:** structurally valid artifacts are one layer of evidence. Acceptance testing must cross the real platform boundary.
 

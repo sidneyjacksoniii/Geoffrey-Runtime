@@ -7,7 +7,7 @@ Estelle’s Kitchen is a deployed household meal-planning and grocery workflow d
 ## The project in 60 seconds
 
 - **The problem:** deciding what to cook, finding the right recipe, and moving ingredients into a usable shopping list creates recurring coordination work.
-- **What shipped:** a mobile-first public experience with today’s recipe, a seven-day menu, recipe details, multi-meal ingredient review, and an Apple Shortcuts handoff to the visitor’s chosen Reminders list.
+- **What shipped:** a mobile-first public experience with today’s recipe, a seven-day menu, recipe details, and a customer-initiated Apple Shortcuts handoff for today’s ingredients to the fixed Reminders list **Estelle Groceries**.
 - **The engineering:** scheduled approved meal updates feed a clear public recipe experience. Waiting states avoid presenting unavailable information as current. Grocery actions require an explicit review and handoff.
 - **The result:** a working website-to-native-app workflow. The final Add helper was verified on an actual device from the live website through to the selected Reminders list.
 - **Project ownership:** owner-directed requirements, architecture, integration decisions, testing, review, and deployment, with AI-assisted implementation.
@@ -24,26 +24,26 @@ Actual public-page desktop captures. [View the complete screenshot walkthrough a
 
 ## Why build it?
 
-A meal plan is useful only if it survives the next steps: opening the correct recipe, knowing what ingredients are needed, and getting those ingredients into a list someone can actually use.
+A meal plan is useful only if it survives the next steps: opening the correct recipe, knowing what ingredients are needed, and getting today’s ingredients into a list someone can actually use.
 
-Estelle’s Kitchen connects those steps while keeping the public experience simple. The household planning workflow supplies the published menu and recipes. Visitors see the published menu, choose which meals to shop for, review the ingredients, and decide when to send them to Apple Shortcuts.
+Estelle’s Kitchen connects those steps while keeping the public experience simple. The household planning workflow supplies the published menu and recipes. Visitors can browse the published menu and recipes; the free grocery action lets them review today’s ingredients and decide when to send them to Apple Shortcuts.
 
 ## What the experience does
 
 1. **See today’s meal.** Read the current recipe, ingredient quantities, instructions, and available serving and timing information.
-2. **Browse the week.** Open details for meals in the published seven-day menu.
-3. **Shop ahead.** Select one or more published meals and review every ingredient before leaving the browser.
-4. **Add to a personal grocery list.** Apple Shortcuts adds one reminder per ingredient line to the list chosen during helper installation.
+2. **Browse the week.** Open details for meals in the published seven-day menu. Weekly recipes are readable, but the free grocery export is limited to today’s meal.
+3. **Review today’s ingredients.** Check every ingredient before leaving the browser.
+4. **Add to the fixed grocery list.** Apple Shortcuts adds one reminder per ingredient line to a list named **Estelle Groceries**.
 5. **Stay in control.** Repeated runs add another copy. Shared ingredients stay separate so quantities are not silently combined or lost.
 
-The public page lets visitors select meals **for a grocery handoff**. Editing the household meal schedule remains outside the public interface.
+The public page lets visitors browse published meals. Only today’s meal is available for the current free grocery handoff. Editing the household meal schedule remains outside the public interface.
 
 ### Apple setup
 
 Open the [live Kitchen](https://geoffreyruntime.com/estelles-kitchen/#grocery-setup) for the current setup instructions and helper downloads.
 
-- **Estelle Grocery Add:** install the ingredient helper, keep its name unchanged, and choose the destination list during setup.
-- **Estelle Grocery Setup:** optional one-time list creation. If a suitable list already exists, skip it or cancel. Running Setup again can create another list.
+- **Estelle Grocery Add V2:** install the ingredient helper and keep its name unchanged. It writes only to the exact list name **Estelle Groceries**.
+- **Estelle Grocery Setup:** optional one-time creation of **Estelle Groceries**. If that exact list already exists, skip Setup. Running Setup again can create another list.
 - Review ingredients on the website, then choose **Add ingredients in Shortcuts**. Apple may request permission to open Shortcuts or access Reminders.
 
 Recipe browsing works independently of the Apple integration. The website cannot read the visitor’s reminders or verify that a native add completed.
@@ -54,12 +54,12 @@ Recipe browsing works independently of the Apple integration. The website cannot
 flowchart TD
     A[Scheduled approved meal updates] --> C[Published menu and recipes]
     C --> D[Mobile-first Kitchen UI]
-    D --> E[User selects meals and reviews ingredients]
+    D --> E[User reviews today's ingredients]
     E -->|Explicit handoff| F[Apple Shortcuts on the visitor device]
-    F --> G[Visitor-selected Apple Reminders list]
+    F --> G[Fixed Estelle Groceries list]
 ```
 
-The website presents the published menu and recipes. Visitors choose meals for groceries and explicitly initiate the handoff to Apple Shortcuts on their own device. Private planning and publication implementation are outside this public overview.
+The website presents the published menu and recipes. Visitors can browse the week, while the free grocery action exports only today’s ingredients to the fixed **Estelle Groceries** list after an explicit handoff to Apple Shortcuts on their own device. Broader meal selection and custom list names are not current public behavior. Private planning and publication implementation are outside this public overview.
 
 [Read the public product flow →](architecture.md)
 
@@ -68,7 +68,7 @@ The website presents the published menu and recipes. Visitors choose meals for g
 - **Keep the public experience focused.** Visitors see published recipes and shopping actions, without private household planning records.
 - **Show honest fallback states.** Waiting or unavailable states explain when the current menu cannot be shown.
 - **Review before handoff.** Ingredient previews make quantities visible before opening another app.
-- **Keep input bounded.** Large selections may need to be split into smaller groups.
+- **Keep input bounded.** The public grocery handoff is limited to today’s published ingredient list.
 - **Avoid misleading success.** Opening Shortcuts is reported as a handoff, not proof that Reminders changed.
 - **Test the real integration.** Automated and structural checks were paired with native helper inspection and an actual device end-to-end run.
 

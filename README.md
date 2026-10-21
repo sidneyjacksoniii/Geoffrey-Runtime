@@ -6,7 +6,7 @@ Geoffrey Runtime is the customer-facing software project by **Sidney Jackson III
 
 **Live project:** https://geoffreyruntime.com/  
 **Product contact:** jack@geoffreyruntime.com  
-**Architecture / professional portfolio:** https://jackson-west.io/
+**Architecture / professional portfolio:** https://jacksonwest.io/
 
 ---
 
@@ -33,12 +33,13 @@ The project demonstrates:
 - [Architecture](docs/estelles-kitchen/architecture.md)
 - [Live experience](https://geoffreyruntime.com/estelles-kitchen/)
 - **[Jackson-West: Engineering a Governed Distributed Execution Platform](docs/jackson-west/governed-distributed-execution-platform.md)** — A sanitized case study of authenticated intake, deterministic policy, registered-executor routing, receipt-gated state, heartbeat availability, and Apple Shortcuts integration. Private Jackson-West source, identifiers, endpoints, credentials, and production logs remain excluded.
+- **[Shared Information and Governed Execution](docs/jackson-west/shared-information-and-governed-execution-v0.2.md)** — Version 0.2 distinguishes direct local use from governed requests, documents the public Kitchen information contract, and narrows what software receipts and private household demonstrations establish.
 
-### One verified cross-system acceptance test
+### One historical cross-system acceptance test
 
-On October 5, 2026, the final grocery helper was exercised from the live Today recipe flow through Apple Shortcuts to the selected Apple Reminders list. All seven ingredient reminders in that test arrived successfully.
+On October 5, 2026, an earlier grocery-helper version was exercised from the live Today recipe flow through Apple Shortcuts to a selected Apple Reminders list. All seven ingredient reminders in that test arrived successfully.
 
-That result is intentionally scoped: it is evidence of one real end-to-end acceptance run, not a claim of universal compatibility or production-scale reliability.
+That result is intentionally scoped: it is historical evidence of one real end-to-end acceptance run, not a claim of universal compatibility or production-scale reliability. The current public helper is narrower: it exports only today's meal and writes to the fixed list name **Estelle Groceries**.
 
 ---
 
@@ -109,7 +110,7 @@ Failure states, retry behavior, permissions, known limitations, and unsupported 
 
 ## Selected capabilities
 
-- **Estelle’s Kitchen:** published meals, recipe browsing, multi-meal grocery review, Apple Shortcuts → Reminders handoff
+- **Estelle’s Kitchen:** published meals, recipe browsing, today's ingredient review, fixed-list Apple Shortcuts → Reminders handoff
 - **Radio:** local-first station/output control architecture
 - **Runtime request model:** request IDs, validation, policy checks, execution, receipts/status
 - **Home automation concepts:** scenes, announcements, device coordination, state and runtime locks
@@ -186,4 +187,4 @@ Private Jackson-West technology, credentials, personal household records, and no
 
 For Geoffrey Runtime product inquiries: **jack@geoffreyruntime.com**
 
-For architecture, professional work, and hiring information: **https://jackson-west.io/**
+For architecture, professional work, and hiring information: **https://jacksonwest.io/**
