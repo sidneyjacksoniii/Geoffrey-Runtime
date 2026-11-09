@@ -32,6 +32,7 @@ The project demonstrates:
 - [Engineering case study](docs/estelles-kitchen/engineering-case-study.md)
 - [Architecture](docs/estelles-kitchen/architecture.md)
 - [Live experience](https://geoffreyruntime.com/estelles-kitchen/)
+- **[Runtime architecture and evidence map](docs/jackson-west/architecture.md)** — The current public-safe map of local, remote, distributed, messaging, scheduling, AI-fallback, and receipt boundaries, with implemented, staged, and unverified status.
 - **[Jackson-West: Engineering a Governed Distributed Execution Platform](docs/jackson-west/governed-distributed-execution-platform.md)** — A sanitized case study of authenticated intake, deterministic policy, registered-executor routing, receipt-gated state, heartbeat availability, and Apple Shortcuts integration. Private Jackson-West source, identifiers, endpoints, credentials, and production logs remain excluded.
 - **[Shared Information and Governed Execution](docs/jackson-west/shared-information-and-governed-execution-v0.2.md)** — Version 0.2 distinguishes direct local use from governed requests, documents the public Kitchen information contract, and narrows what software receipts and private household demonstrations establish.
 
@@ -51,34 +52,28 @@ Geoffrey Runtime is a local-first automation architecture built around a simple 
 
 The system separates request intake, validation, policy, execution, device interaction, and evidence/receipt handling.
 
-```text
-Voice / Buttons / Schedules / Web
-              |
-              v
-        Request Intake
-              |
-              v
-          Validation
-              |
-              v
-         Policy Checks
-              |
-              v
-           Executor
-              |
-              v
-            Device
-              |
-              v
-      Receipt / Status
-              |
-              v
-           Logging
+```mermaid
+flowchart LR
+  A[Voice, buttons, schedules, messages, web] --> B{Execution path}
+  B -->|direct local use| L[Local Shortcut or capability]
+  B -->|governed request| I[Authenticated intake]
+  I --> V[Schema, freshness, identity, replay checks]
+  V --> P{Deterministic policy}
+  P -->|deny| X[Denied or failed]
+  P -->|known route| R[Registered executor route]
+  P -->|unresolved and eligible| AI[Optional AI interpretation]
+  AI --> V2[Structured candidate revalidation]
+  V2 --> P
+  R --> S[Shortcut or registered local executor]
+  S --> T[Correlated terminal software receipt]
+  T --> O[State, customer status, or cloud projection]
 ```
 
-When deterministic routing cannot resolve a request, an AI model may return structured data. That data must still pass validation before execution.
+When deterministic routing cannot resolve an eligible request, an AI model may return a structured candidate. The candidate re-enters validation and policy before execution.
 
-**AI never directly controls devices.**
+**AI never directly controls devices.** Jackson-West authorizes governed requests; Apple Shortcuts and registered executors communicate or act; receipts establish the software result without automatically proving the physical-world state.
+
+See [Runtime architecture and evidence map](docs/jackson-west/architecture.md) for responsibility boundaries, messaging and cloud paths, scheduling, household isolation, and current verification status.
 
 ---
 
@@ -145,9 +140,14 @@ For a safe public example of the governed execution contract, see:
 
 Geoffrey Runtime is an actively developed personal-automation product and architecture. Some experiences are deployed today; others are prototypes, architecture references, or works in progress.
 
-The repository deliberately avoids claiming scale, uptime, compatibility, or enterprise readiness that has not been measured.
+- **Working or live-evidenced in bounded scopes:** the public project and Kitchen experience; selected local Shortcuts; selected governed paths already described in the dated case studies.
+- **Installed legs, not a verified end-to-end gateway:** inbound and outbound customer-message components have been inspected independently, but no full gateway round trip or live multi-customer isolation result is established.
+- **Staged and disabled:** relay-gateway and phone-executor hardening candidates, plus a three-level AI fallback candidate. Their isolated test results are not production evidence.
+- **Planned or unresolved:** universal receiver-side enforcement, unique physical-device identity, live multi-household isolation proof, and a verified background AI wake.
 
-Current Radio installer status and product availability are documented on the live site rather than implied by architecture documentation.
+The public site and cloud projection are separate from the Mac control plane and from optional AI reasoning. Website availability does not prove that a household command can execute, and a Mac-offline execution test has not been completed.
+
+The repository deliberately avoids claiming scale, uptime, compatibility, or enterprise readiness that has not been measured. Current Radio installer status and product availability are documented on the live site rather than implied by architecture documentation.
 
 ---
 
