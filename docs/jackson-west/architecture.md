@@ -1,6 +1,6 @@
 # Geoffrey Runtime and Jackson-West architecture
 
-**Evidence snapshot: 8 November 2026**
+**Evidence snapshot: 24 November 2026**
 
 This document is a public-safe map of the current local, governed, distributed, messaging, scheduling, and optional AI paths. It separates implemented behavior from isolated candidates and plans. It does not reproduce private runtime source, credentials, contacts, customer records, endpoints, or production identifiers.
 
@@ -26,9 +26,10 @@ flowchart TB
     Web[Browser or customer dashboard]
     Msg[Customer message]
     Sched[Schedule or due event]
+    Report[Validated state report]
   end
 
-  Local -->|direct local path| Shortcut[Supported local Shortcut]
+  Local -->|direct local control| Shortcut[Supported local Shortcut]
   Web --> Cloud[Cloud command storage]
   Cloud --> Poller[Mac poller and control intake]
   Msg --> Gateway[Message intake boundary]
@@ -43,23 +44,29 @@ flowchart TB
   Policy -->|unresolved and eligible| AI[Optional AI interpretation]
   AI --> Candidate[Structured candidate]
   Candidate --> Validate
-
   Router --> Adapter[Fixed adapter]
   Adapter --> Shortcut
   Shortcut --> Device[Registered household device or capability]
   Device --> Receipt[Correlated terminal software receipt]
-  Receipt --> ReceiptCheck{Receipt validates?}
-  ReceiptCheck -->|yes| State[Canonical lifecycle or state]
-  ReceiptCheck -->|no or missing| Pending[Pending or failed; no success claim]
-  State --> Publisher[Mac publisher]
-  Publisher --> Projection[Cloud projection or customer status]
-  State --> Outbound[Bounded outbound message]
+  Receipt --> ActionStatus[Software completion status]
+  Shortcut -. transport acknowledgement only .-> Pending[Pending or uncertain]
 
-  Shortcut -. transport acknowledgement only .-> Pending
+  Report --> StateValidate[State schema, identity, freshness, and replay checks]
+  StateValidate --> Commit[Atomic canonical state commit]
+  Commit --> MirrorIntent[Durable versioned mirror intent]
+  MirrorIntent --> MirrorHandoff[Mirror handoff]
+  MirrorHandoff --> Applied[Confirmed application only when receiver evidence proves it]
+  Commit --> Rule{Eligible configured rule?}
+  Rule -->|no| StateOnly[State remains committed]
+  Rule -->|yes and separately authorized| Router
+
+  Commit --> Publisher[Mac publisher]
+  Publisher --> Projection[Cloud projection or customer status]
+  ActionStatus -. physical outcome requires separate observation .-> Physical[Observed physical effect]
   Projection -. site availability is not execution availability .-> Web
 ```
 
-The direct local path and the governed path are intentionally different. A supported local Shortcut can run without Jackson-West authorization and without a Jackson-West receipt. A remote or distributed request must pass the governed boundary before a registered executor may act.
+The direct local, governed-command, and validated-state paths are intentionally different. A supported local Shortcut can run without Jackson-West authorization or a Jackson-West receipt. A remote or distributed command must pass the governed boundary before a registered executor may act. A validated state report can commit canonical state independently; mirror delivery and any later rule-driven action have their own evidence and correlation.
 
 ## Operating modes
 
@@ -70,6 +77,12 @@ A person invokes a supported Shortcut on a local device. Device permissions and 
 ### Governed remote execution
 
 An authenticated request reaches Jackson-West, which validates the request, applies deterministic policy, resolves an approved executor, and hands off only the bounded capability. Requester and executor can be different devices. Editable Shortcuts remain integration components, not the policy store.
+
+### Validated state report and eligible rule
+
+A validated state report passes identity, schema, freshness, and replay checks before an atomic canonical-state commit. That commit does not wait for a display mirror or terminal action receipt. The runtime may then evaluate a configured rule against the committed state. Only an eligible rule with separate authorization may request a registered executor action, and that action receives its own correlation and outcome.
+
+A sanitized example is a weekday Awake transition: the validated transition saves state first, then an eligible configured rule may request the CEO morning scene. A software result is correlated separately and does not by itself prove that the physical scene changed. An extended weekday eligibility window and a weekend Awake-triggered Morning Lights rule have isolated test evidence but are not deployed.
 
 ### Distributed web execution
 
@@ -127,24 +140,29 @@ This architecture is designed to avoid using a customer-supplied recipient or a 
 
 A local schedule may invoke a supported Shortcut directly. A governed schedule is different: creation is authenticated and authorized, the stored action remains bounded by the existing frozen runtime contract, a due event wakes the governed lifecycle, and the action is revalidated before routing to a registered executor.
 
-Dispatch or schedule creation is not completion. A transport acknowledgement may show that a handoff occurred; the schedule or action reaches an authoritative success state only when the capability's correlated terminal receipt satisfies its contract. This document does not restate or alter the exact frozen scheduling fields.
+Dispatch or schedule creation is not completion. A transport acknowledgement shows at most that a handoff occurred; governed software completion requires the capability's matching terminal receipt. A separate state report may already have committed canonical state, and that commit does not become contingent on the scheduled action's outcome. This document does not restate or alter the exact frozen scheduling fields.
 
-## Receipts and customer status
+## State, receipts, and customer status
 
-The evidence ladder is:
+The evidence ladder is deliberately not a single linear success flag:
 
-1. **Accepted:** intake and policy allowed the request.
-2. **Dispatched:** a bounded request was handed to a registered executor.
-3. **Terminal software receipt:** the matching executor reported a final result that passed receipt validation.
-4. **Observed physical outcome:** a person or independent sensor confirmed the effect.
+1. **Committed state:** a validated report was saved atomically as canonical state.
+2. **Mirror handoff:** a versioned projection intent was handed to its receiver; this does not prove application.
+3. **Confirmed mirror application:** the receiver's authenticated evidence proves the specific saved revision was applied.
+4. **Governed action accepted:** intake and policy allowed a named command or eligible rule action.
+5. **Governed action dispatched:** the bounded action was handed to a registered executor.
+6. **Terminal software receipt:** the matching executor reported a final software result that passed receipt validation.
+7. **Observed physical outcome:** a person or independent sensor confirmed the real-world effect.
 
-Only claim the highest level actually supported by evidence. A successful process return, a sent message, a website update, or a Shortcut handoff is not automatically a successful device effect. A terminal software receipt is authoritative for governed machine state where the contract defines it; it is not automatic proof that a light changed, audio was heard, or a device remained in that state.
+Only claim the evidence actually supported. A committed state does not wait for terminal action execution. A process return, sent message, website update, or Shortcut handoff is not confirmed mirror application or successful device effect. A terminal software receipt can establish software completion where the contract defines it; it is not automatic proof that a light changed, audio was heard, or a device remained in that state.
 
 ## Current limits
 
 - No full inbound-to-outbound customer gateway round trip is verified.
 - No live multi-customer or multi-household isolation test is verified.
 - The relay-gateway, phone-executor hardening, and three-level AI fallback candidates are staged and disabled.
+- The extended weekday morning-rule window and weekend Awake-triggered Morning Lights rule are isolated-tested and not deployed.
+- The separate V2 architecture is not the active runtime.
 - No verified live AI fallback integration or background Goldie wake exists.
 - Website availability does not establish Mac or executor availability; the Mac-offline path is untested.
 - Device registration does not yet establish hardware-backed unique physical-device identity.
