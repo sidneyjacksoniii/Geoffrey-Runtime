@@ -54,20 +54,32 @@ The system separates request intake, validation, policy, execution, device inter
 
 ```mermaid
 flowchart LR
-  A[Voice, buttons, schedules, messages, web] --> B{Execution path}
-  B -->|direct local use| L[Local Shortcut or capability]
-  B -->|governed request| I[Authenticated intake]
-  I --> V[Schema, freshness, identity, replay checks]
+  A[Voice, buttons, schedules, messages, web] --> B{Validated path}
+  B -->|direct local control| L[Local Shortcut or capability]
+  B -->|governed command| I[Authenticated intake]
+  I --> V[Schema, freshness, identity, and replay checks]
   V --> P{Deterministic policy}
   P -->|deny| X[Denied or failed]
   P -->|known route| R[Registered executor route]
   P -->|unresolved and eligible| AI[Optional AI interpretation]
   AI --> V2[Structured candidate revalidation]
   V2 --> P
-  R --> S[Shortcut or registered local executor]
-  S --> T[Correlated terminal software receipt]
-  T --> O[State, customer status, or cloud projection]
+  R --> E[Shortcut or registered local executor]
+  E --> C[Separately correlated software result]
+
+  B -->|validated state report| SI[State validation]
+  SI --> SC[Atomic canonical state commit]
+  SC --> M[Durable mirror intent]
+  M --> H[Mirror handoff]
+  H --> MA[Confirmed application only when proved]
+  SC --> Q{Eligible configured rule?}
+  Q -->|no| N[State remains committed]
+  Q -->|yes and authorized| R
+
+  C -. physical outcome needs separate evidence .-> O[Observed physical effect]
 ```
+
+These paths are intentionally distinct. Direct local control does not require Jackson-West. A governed command is authorized before execution. A validated state report can commit canonical state before any mirror or later rule-driven action finishes; mirror handoff, confirmed application, software completion, and physical evidence are separate claims.
 
 When deterministic routing cannot resolve an eligible request, an AI model may return a structured candidate. The candidate re-enters validation and policy before execution.
 
@@ -143,6 +155,8 @@ Geoffrey Runtime is an actively developed personal-automation product and archit
 - **Working or live-evidenced in bounded scopes:** the public project and Kitchen experience; selected local Shortcuts; selected governed paths already described in the dated case studies.
 - **Installed legs, not a verified end-to-end gateway:** inbound and outbound customer-message components have been inspected independently, but no full gateway round trip or live multi-customer isolation result is established.
 - **Staged and disabled:** relay-gateway and phone-executor hardening candidates, plus a three-level AI fallback candidate. Their isolated test results are not production evidence.
+- **Isolated-tested, not deployed:** an extended weekday morning-rule window and a separate weekend Awake-triggered Morning Lights rule.
+- **Not active:** the separate V2 architecture remains isolated development; public documentation does not present it as the deployed runtime.
 - **Planned or unresolved:** universal receiver-side enforcement, unique physical-device identity, live multi-household isolation proof, and a verified background AI wake.
 
 The public site and cloud projection are separate from the Mac control plane and from optional AI reasoning. Website availability does not prove that a household command can execute, and a Mac-offline execution test has not been completed.
