@@ -10,6 +10,8 @@ Geoffrey Runtime is the customer-facing software project by **Sidney Jackson III
 
 ---
 
+**[Jackson-West and Geoffrey Runtime roadmap](docs/jackson-west/roadmap.md)** · What works today, the order of planned updates, and what each release needs to prove.
+
 ## Start with the shipped work
 
 ### Estelle’s Kitchen — deployed systems-integration case study
